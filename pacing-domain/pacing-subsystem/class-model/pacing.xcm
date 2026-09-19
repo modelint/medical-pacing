@@ -10,6 +10,11 @@ metadata
     Organization logo > mint
 domain Pacing, PACE
 subsystem Pacing, P 1-99
+class Active Phase
+attributes
+    Current event : Event Code {I, R16}
+    Organ : Organ Name {I2, R16}
+--
 class Client Task
 attributes
     ID : Task ID {I}
@@ -200,6 +205,13 @@ relationships
     regulates activity in, 1 Organ
     has activity regulated by, Mc Pace Program
     Pace Program.Organ -> Organ.Name
+--
+    R16
+    has most recently experienced, 1c Event
+    is the most recent activity in, 1c Organ
+    1 Active Phase
+    Active Phase.Organ -> Organ.Name
+    Active Phase.Event -> Event.Code
 --
     R17
     invokes, 1 Client Task

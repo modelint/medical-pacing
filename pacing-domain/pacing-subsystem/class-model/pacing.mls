@@ -2,7 +2,7 @@ diagram class
 notation Starr
 presentation default
 orientation landscape
-color blue steel
+color medical
 sheet A1
 padding l50 b50
 frame Model Integration Diagram
@@ -27,6 +27,7 @@ nodes
     Timed Task Window/2 3,4
     Client Terminated Task Window/2 3,5-6
     Client Task 5,6-7
+    Active Phase 13-14,5
 connectors
     -R1 : +/2 r|Organ : +/1 l*|Region
     -R2-1 : +/2 r|Region : +/2 l*|Event, t|Region Stimulation
@@ -41,6 +42,7 @@ connectors
     -R13 : +/2 t+1|Event : +/1 l-2|Pace Timeout Period, b|PTP Initiation
     +R14 : +/1 l+2|Pace Timeout Period : -/2 l+2|Pace Program : L2R+1
     +R15 : +/2 b+2|Organ : +/2 t*|Pace Program
+    -R16.2 : -/2 t+1|Organ : -/2 t-1|Event, b|Active Phase : L13
     -OR18.2-1 : -/1 l-1|Task Window : +/1 l+1|Task Window : L4R+2
     +R17 : -/1 r|Task Window : -/2 l*|Client Task
     +R19 : -/1 b-2|Organ : -/2 t*|Pace Program, r|Controlling Program
