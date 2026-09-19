@@ -41,6 +41,27 @@ attributes
     Name : Program Name {I}
     Organ : Organ Name {R15}
 --
+class Pace Timeout Period, PTP
+attributes
+    ID : PTP ID {I}
+    Program : Program Name {I, R14}
+    Pace event : Event Code {R12}
+    Inhibited : Boolean
+    Current duration : Duration
+    Next duration : Duration
+--
+class PTP Cancellation
+attributes
+    Event : Event Code {I, R11}
+    PTP : PTP ID {I, R11}
+    Program : Program Name {I, R11}
+--
+class PTP Initiation
+attributes
+    Initiating event : Event Code {I, R13}
+    PTP : PTP ID {I, R13}
+    Program : Program Name {I, R13}
+--
 class Region
 attributes
     Name : Region Name {I}
@@ -56,6 +77,13 @@ class Region Stimulation
 attributes
     Name : Region Name {I}
     Organ : Organ Name {R1}
+--
+class Task Timeline
+attributes
+    ID : Timeline ID {I}
+    Program : Program Name {I, R4}
+    Region : Region Name {I, R4}
+    Event : Event Code {I, R4}
 --
 relationships
     R1
@@ -77,11 +105,40 @@ relationships
     Region Schedule.Program -> Pace Program.Name
     Region Schedule.(Region, Event) -> Region Stimulation.(Region, Event)
 --
+    R4
+    sequences activity within, 1 Region Schedule
+    has activity sequenced by, M Task Timeline
+    Task Timeline.(Program, Region, Event) -> Region Schedule.(Program, Region, Event)
+--
     R10
     Event +
         Intrinsic Event
         Pace Event
     <subclass>.Code -> Event.Code
+--
+    R11
+    cancels, Mc Pace Timeout Period
+    is canceled by, 1c Intrinsic Event
+    1 PTP Cancellation
+    PTP Cancellation.Event -> Intrinsic Event.Code
+    PTP Cancellation.(PTP, Program) -> Pace Timeout Period.(ID, Program)
+--
+    R12
+    requests delivery of, 1 Pace Event
+    has delivery requested by, Mc Pace Timeout Period
+    Pace Timeout Period.Pace event -> Pace Event.Code
+--
+    R13
+    is initiated by, M Event
+    initiates, Mc Pace Timeout Period
+    1 PTP Initiation
+    PTP Initiation.(PTP, Program) -> Pace Timeout Period.(ID, Program)
+    PTP Initiation.Initiating event -> Event.Code
+--
+    R14
+    specifies pace delivery timing with, Mc Pace Timeout Period
+    specifies pace delivery timing for, 1 Pace Program
+    Pace Timeout Period.Program -> Pace Program.Name
 --
     R15
     regulates activity in, 1 Organ
