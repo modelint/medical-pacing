@@ -1,0 +1,104 @@
+metadata
+    Title : Pacing Class Model
+    Author : Leon Starr
+    Document ID : mint.pace.td.1
+    Version : 0.2.0
+    Creation date : September 18, 2026
+    Modification date : September 18, 2026
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint
+domain Pacing, PACE
+subsystem Pacing, P 1-99
+class Controlling Program
+attributes
+    Name : Program Name {I, R19}
+    Organ : Organ Name {I2, R19}
+--
+class Cued Program
+attributes
+    Cued program : Program Name {I, R20}
+    Controlling program : Program Name {I2, R20}
+--
+class Event
+attributes
+    Code : Event Code {I}
+--
+class Intrinsic Event
+attributes
+    Code : Event Code {I, R10}
+--
+class Organ
+attributes
+    Name : Organ Name {I}
+--
+class Pace Event
+attributes
+    Code : Event Code {I, R10}
+--
+class Pace Program
+attributes
+    Name : Program Name {I}
+    Organ : Organ Name {R15}
+--
+class Region
+attributes
+    Name : Region Name {I}
+    Organ : Organ Name {R1}
+--
+class Region Schedule
+attributes
+    Program : Program Name {I, R3}
+    Region : Region Name {I, R3}
+    Event : Event Code {I, R3}
+--
+class Region Stimulation
+attributes
+    Name : Region Name {I}
+    Organ : Organ Name {R1}
+--
+relationships
+    R1
+    is an independently managed component of, 1 Organ
+    is partitioned by, M Region
+    Region.Organ -> Organ.Name
+--
+    R2
+    can be stimulated by, Mc Event
+    can stimulate activity in, Mc Region
+    1 Region Stimulation
+    Region Stimulation.Region -> Region.Name
+    Region Stimulation.Event -> Event.Code
+--
+    R3
+    schedules activity after, Mc Region Stimulation
+    is scheduing reference point in, Mc Pace Program
+    1 Region Schedule
+    Region Schedule.Program -> Pace Program.Name
+    Region Schedule.(Region, Event) -> Region Stimulation.(Region, Event)
+--
+    R10
+    Event +
+        Intrinsic Event
+        Pace Event
+    <subclass>.Code -> Event.Code
+--
+    R15
+    regulates activity in, 1 Organ
+    has activity regulated by, Mc Pace Program
+    Pace Program.Organ -> Organ.Name
+--
+    R19
+    is pacing, 1c Organ
+    is being paced by, 1c Pace Program
+    1 Controlling Program
+    Pace Program.Organ -> Organ.Name
+    Pace Program.Name -> Pace Program.Name
+--
+    R20
+    is taking control from, 1c Controlling Program
+    is handing off control to, 1c Pace Program
+    1 Cued Program
+    Cued Program.Controlling Program -> Controlling Program.Name
+    Cued Program.Cued Program -> Pace Program.Name
+--

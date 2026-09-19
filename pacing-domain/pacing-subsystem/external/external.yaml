@@ -1,0 +1,36 @@
+External Entities:
+  # Specify each External Entity
+  UI:
+    service domain: User Interface  # EE is a proxy for interaction with this Domain
+    external events: # Events explicitly directed at the External Entity
+      - name: Set destination
+        parameters:
+          dest: Level Name
+      - name: Clear floor request
+        parameters:
+          bank: Bank Name
+          floor: Level Name
+          dir: Direction
+      - name: Cabin arrived
+        parameters:
+          shaft: Shaft ID
+          direction: Direction
+      - name: Passing floor
+        parameters:
+          floor: Level Name
+
+  TRANS:
+    service domain: Transport
+    external events:
+      - name: Stop at nearest floor
+      - name: Go to floor
+        parameters:
+          dest floor: Level Name
+        responses:
+          - state model: Cabin
+            name: Arrived at floor
+          - state model: Cabin
+            name: Transport unavailable
+  SIO:
+    service domain: Signal IO
+    # All interactions are implicit

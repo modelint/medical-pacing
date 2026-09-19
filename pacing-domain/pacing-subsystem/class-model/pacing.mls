@@ -1,0 +1,28 @@
+diagram class
+notation Starr
+presentation default
+orientation landscape
+color blue steel
+sheet A1
+padding l50 b50
+frame Model Integration Diagram
+frame_presentation default
+nodes
+    Controlling Program/2 11,1
+    Cued Program 9,2
+    Organ 12,3
+    Pace Program 10,3
+    Region 12,5-6
+    Region Stimulation/2 10,6-7
+    Event 12,7-8
+    Region Schedule 9,5
+    Intrinsic Event 12-13,9
+    Pace Event 11,9
+connectors
+    -R1 : +/2 r|Organ : +/1 l*|Region
+    -R2-1 : +/2 r|Region : +/2 l*|Event, t|Region Stimulation
+    -R3 : +/2 r|Pace Program : +/1 l*|Region Stimulation, t|Region Schedule
+    +R10 : r|Event { l|Intrinsic Event, l|Pace Event }
+    +R15 : +/2 b+2|Organ : +/2 t*|Pace Program
+    +R19 : -/1 b-2|Organ : -/1 t*|Pace Program, r|Controlling Program
+    +R20.2 : -/2 l|Pace Program : +/2 b|Controlling Program, t|Cued Program
