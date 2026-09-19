@@ -10,6 +10,18 @@ metadata
     Organization logo > mint
 domain Pacing, PACE
 subsystem Pacing, P 1-99
+class Client Task
+attributes
+    ID : Task ID {I}
+--
+class Client Terminated Task Window
+attributes
+    Sequence : Ordinal {I, R7}
+    Timeline : Timeline ID {I, R7}
+    Program : Program Name {I, R7}
+    Region : Region Name {I, R7}
+    Event : Event Code {I, R7}
+--
 class Controlling Program
 attributes
     Name : Program Name {I, R19}
@@ -27,6 +39,14 @@ attributes
 class Intrinsic Event
 attributes
     Code : Event Code {I, R10}
+--
+class Open Window
+attributes
+    Task window : Ordinal {I, R6}
+    Timeline : Window ID {I2, R6}
+    Program : Program Name {I2, R6}
+    Region : Region Name {I2, R6}
+    Event : Event Code {I2, R6}
 --
 class Organ
 attributes
@@ -85,6 +105,24 @@ attributes
     Region : Region Name {I, R4}
     Event : Event Code {I, R4}
 --
+class Task Window
+attributes
+    Sequence : Ordinal {I}
+    Timeline : Timeline ID {I, R5}
+    Program : Program Name {I, R5}
+    Region : Region Name {I, R5}
+    Event : Event Code {I, R5}
+    Task to invoke : Task ID {R17}
+--
+class Timed Task Window
+attributes
+    Sequence : Ordinal {I, R7}
+    Timeline : Timeline ID {I, R7}
+    Program : Program Name {I, R7}
+    Region : Region Name {I, R7}
+    Event : Event Code {I, R7}
+    Duration : Duration
+--
 relationships
     R1
     is an independently managed component of, 1 Organ
@@ -109,6 +147,24 @@ relationships
     sequences activity within, 1 Region Schedule
     has activity sequenced by, M Task Timeline
     Task Timeline.(Program, Region, Event) -> Region Schedule.(Program, Region, Event)
+--
+    R5
+    schedules sequence of, M Task Window
+    is scheduled to open in sequence, 1 Task Timeline
+    Task Window.(Timeline, Program, Region, Event) -> Task Timeline.(ID, Program, Region, Event)
+--
+    R6
+    opens, 1c Task Window
+    is opened by, 1c Task Timeline
+    1 Open Window
+    Open Window.Task window -> Task Window.ID
+    Open Window.(Timeline, Program, Region, Event) -> Task Timeline.(ID, Program, Region, Event)
+--
+    R7
+    Task Window +
+        Timed Task Window
+        Client Terminated Task Window
+    <subclass>.(Sequence, Timeline, Program, Region, Event) -> Task Window.(Sequence, Timeline, Program, Region, Event)
 --
     R10
     Event +
@@ -144,6 +200,15 @@ relationships
     regulates activity in, 1 Organ
     has activity regulated by, Mc Pace Program
     Pace Program.Organ -> Organ.Name
+--
+    R17
+    invokes, 1 Client Task
+    is invoked by, 1 Task Window
+    Task Window.Task to invoke -> Client Task.ID
+--
+    OR18
+    before / after, Task Window
+    Sequence : I
 --
     R19
     is pacing, 1c Organ

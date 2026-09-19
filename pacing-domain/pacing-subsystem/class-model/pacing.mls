@@ -22,16 +22,26 @@ nodes
     PTP Initiation 14,8
     PTP Cancellation 12,10 >bottom
     Task Timeline 7,5
+    Task Window 5,5
+    Open Window 6,6-7
+    Timed Task Window/2 3,4
+    Client Terminated Task Window/2 3,5-6
+    Client Task 5,6-7
 connectors
     -R1 : +/2 r|Organ : +/1 l*|Region
     -R2-1 : +/2 r|Region : +/2 l*|Event, t|Region Stimulation
     -R3 : +/2 r|Pace Program : +/1 l*|Region Stimulation, t|Region Schedule
     -R4 : +/2 b|Region Schedule : +/2 t*|Task Timeline
+    -R5 : -/2 b-2|Task Timeline : -/2 t*|Task Window
+    -R6 : +/1 b+2|Task Timeline : +/1 t*|Task Window, l|Open Window
+    +R7 : b|Task Window { t|Timed Task Window, t|Client Terminated Task Window }
     +R10 : r|Event { l|Intrinsic Event, l|Pace Event }
     +R11 : +/1 r|Intrinsic Event : +/1 b-2|Pace Timeout Period, t|PTP Cancellation
     +R12.2 : +/1 r|Pace Event : +/2 b+2|Pace Timeout Period
     -R13 : +/2 t+1|Event : +/1 l-2|Pace Timeout Period, b|PTP Initiation
     +R14 : +/1 l+2|Pace Timeout Period : -/2 l+2|Pace Program : L2R+1
     +R15 : +/2 b+2|Organ : +/2 t*|Pace Program
+    -OR18.2-1 : -/1 l-1|Task Window : +/1 l+1|Task Window : L4R+2
+    +R17 : -/1 r|Task Window : -/2 l*|Client Task
     +R19 : -/1 b-2|Organ : -/2 t*|Pace Program, r|Controlling Program
     -R20.2 : -/2 l-2|Pace Program : +/2 b|Controlling Program, t|Cued Program
