@@ -1,0 +1,42 @@
+diagram class
+notation Starr
+presentation default
+orientation landscape
+color medical
+sheet A1
+padding l150 b50
+frame Model Integration Diagram
+frame_presentation default
+nodes
+    Pace Program 10,2
+    Organ 10,4-5
+    Region 10,7
+    Activity 10,9-10
+    Pace Timeout Period/2 12,9-10
+    Pace Event 11,12
+    Intrinsic Event 9,12
+    Event 10,13-14
+    Region Stimulation/2 7-8,9-10
+    Region Schedule 6-7,4-5
+    Task Timeline 4-5,4-5
+    Task Window 4-5,7
+    Timed Task Window/2 5,8-9
+    Client Terminated Task Window/2 4,8-9
+    Client Task 3,7
+connectors
+    -R1 : +/2 r|Organ : +/1 l*|Region
+    -R2.2 : +/2 b|Region : +/2 b|Event, t|Region Stimulation : L8R+2
+    -R3 : -/2 b|Pace Program : +/1 l|Region Stimulation, t|Region Schedule
+    +R4 : -/2 b|Region Schedule : -/2 t*|Task Timeline
+    -R5 : +/2 r|Task Timeline : +/2 l*|Task Window
+    -R6 : +/1 r|Region : +/1 l*|Activity
+    +R7 : r|Task Window { l|Timed Task Window, l|Client Terminated Task Window }
+    -R8 : +/2 b|Activity : +/1 l|Intrinsic Event
+    +R9 : +/2 t+2|Activity : -/1 l|Pace Event
+    +R10 : l|Event { r|Intrinsic Event, r|Pace Event }
+    +R12.2 : +/2 t|Pace Event : +/2 r|Pace Timeout Period
+    +R13 : -/1 t-1|Activity : -/2 b*|Pace Timeout Period
+    +R14 : +/1 l|Pace Timeout Period : -/2 t|Pace Program
+    -R15 : +/2 l*|Organ : +/2 r|Pace Program
+    +OR18.2-1 : -/1 t-1|Task Window : +/1 t+1|Task Window : L5R+1
+    +R17 : -/1 b|Task Window : -/2 t*|Client Task

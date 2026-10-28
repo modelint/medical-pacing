@@ -1,0 +1,187 @@
+metadata
+    Title : Pace Program Subsystem
+    Author : Leon Starr
+    Document ID : mint.pace.td.1
+    Version : 0.4.0
+    Creation date : September 18, 2026
+    Modification date : October 28, 2026
+    Organization : Model Integration, LLC / www.modelint.com
+    Copyright notice > MIT
+    Organization logo > mint
+domain Pacing, PACE
+subsystem Pace Program, PPROG 1-50
+class Activity
+attributes
+    Name : Activity Name {I}
+    Region : Region Name {I, R6}
+    Signal event : Event Code {R8}
+--
+class Client Task
+attributes
+    ID : Task ID {I}
+--
+class Client Terminated Task Window
+attributes
+    Sequence : Ordinal {I, R7}
+    Timeline : Timeline ID {I, R7}
+    Program : Program Name {I, R7}
+    Region : Region Name {I, R7}
+    Event : Event Code {I, R7}
+--
+class Event
+attributes
+    Code : Event Code {I}
+--
+class Intrinsic Event
+attributes
+    Code : Event Code {I, R10}
+--
+class Organ
+attributes
+    Name : Organ Name {I}
+--
+class Pace Event
+attributes
+    Code : Event Code {I, R10}
+    Activity : Activity Name {R9}
+--
+class Pace Program
+attributes
+    Name : Program Name {I}
+    Organ : Organ Name {R15}
+--
+class Pace Timeout Period, PTP
+attributes
+    ID : PTP ID {I}
+    Program : Program Name {I, R14}
+    Activity : Activity Name {R13}
+    Pace event : Event Code {R12}
+    Inhibited : Boolean
+--
+class Region
+attributes
+    Name : Region Name {I}
+    Organ : Organ Name {R1}
+--
+class Region Schedule
+attributes
+    Program : Program Name {I, R3}
+    Region : Region Name {I, R3}
+    Event : Event Code {I, R3}
+--
+class Region Stimulation
+attributes
+    Name : Region Name {I}
+    Organ : Organ Name {R1}
+--
+class Task Timeline
+attributes
+    ID : Timeline ID {I}
+    Program : Program Name {I, R4}
+    Region : Region Name {I, R4}
+    Event : Event Code {I, R4}
+--
+class Task Window
+attributes
+    Sequence : Ordinal {I}
+    Timeline : Timeline ID {I, R5}
+    Program : Program Name {I, R5}
+    Region : Region Name {I, R5}
+    Event : Event Code {I, R5}
+    Task to invoke : Task ID {R17}
+--
+class Timed Task Window
+attributes
+    Sequence : Ordinal {I, R7}
+    Timeline : Timeline ID {I, R7}
+    Program : Program Name {I, R7}
+    Region : Region Name {I, R7}
+    Event : Event Code {I, R7}
+    Duration : Duration
+--
+relationships
+    R1
+    is an independently managed component of, 1 Organ
+    is partitioned by, M Region
+    Region.Organ -> Organ.Name
+--
+    R2
+    can be stimulated by, Mc Event
+    can stimulate activity in, Mc Region
+    1 Region Stimulation
+    Region Stimulation.Region -> Region.Name
+    Region Stimulation.Event -> Event.Code
+--
+    R3
+    schedules activity after, Mc Region Stimulation
+    is scheduing reference point in, Mc Pace Program
+    1 Region Schedule
+    Region Schedule.Program -> Pace Program.Name
+    Region Schedule.(Region, Event) -> Region Stimulation.(Region, Event)
+--
+    R4
+    sequences activity within, 1 Region Schedule
+    has activity sequenced by, M Task Timeline
+    Task Timeline.(Program, Region, Event) -> Region Schedule.(Program, Region, Event)
+--
+    R5
+    schedules sequence of, M Task Window
+    is scheduled to open in sequence, 1 Task Timeline
+    Task Window.(Timeline, Program, Region, Event) -> Task Timeline.(ID, Program, Region, Event)
+--
+    R6
+    occurs within, 1 Region
+    is location of, Mc Activity
+    Activity.Region -> Region.Name
+--
+    R7
+    Task Window +
+        Timed Task Window
+        Client Terminated Task Window
+    <subclass>.(Sequence, Timeline, Program, Region, Event) -> Task Window.(Sequence, Timeline, Program, Region, Event)
+--
+    R8
+    is detected by, 1 Intrinsic Event
+    signals, 1 Activity
+    Activity.Event -> Intrinsic Event.Code
+--
+    R9
+    is induced by, Mc Paced Event
+    induces, 1 Activity
+    Paced.Event -> Activity.Name
+--
+    R10
+    Event +
+        Intrinsic Event
+        Pace Event
+    <subclass>.Code -> Event.Code
+--
+    R12
+    requests delivery of, 1 Pace Event
+    has delivery requested by, Mc Pace Timeout Period
+    Pace Timeout Period.Pace event -> Pace Event.Code
+--
+    R13
+    is initiated by, 1 Activity
+    initiates, Mc Pace Timeout Period
+    Pace Timeout Period.(Activity, Region) -> Activity.(Name, Region)
+--
+    R14
+    specifies pace delivery timing with, Mc Pace Timeout Period
+    specifies pace delivery timing for, 1 Pace Program
+    Pace Timeout Period.Program -> Pace Program.Name
+--
+    R15
+    regulates activity in, 1 Organ
+    has activity regulated by, Mc Pace Program
+    Pace Program.Organ -> Organ.Name
+--
+    R17
+    invokes, 1 Client Task
+    is invoked by, 1 Client Terminated Task Window
+    Task Window.Task to invoke -> Client Task.ID
+--
+    OR18
+    before / after, Task Window
+    Sequence : I
+--
