@@ -2,7 +2,7 @@ diagram class
 notation Starr
 presentation default
 orientation landscape
-color medical
+color mint
 sheet A1
 padding l150 b50
 frame Model Integration Diagram

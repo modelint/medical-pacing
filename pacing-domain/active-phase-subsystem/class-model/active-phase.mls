@@ -3,47 +3,25 @@ notation Starr
 presentation default
 orientation landscape
 color medical
-sheet A1
-padding l50 b50
+sheet A2
+padding l250 b100
 frame Model Integration Diagram
 frame_presentation default
 nodes
-    Controlling Program/2 11,1
-    Cued Program 9,1-2
-    Organ 12,3
-    Pace Program [C2]50% 10,3
-    Region 12,5-6
-    Region Stimulation/2 10,6-7
-    Event 12,7-8
-    Region Schedule 9,5
-    Intrinsic Event 12-13,9
-    Pace Event 11,9
-    Pace Timeout Period/2 [C2]50% 14,10-11
-    PTP Initiation 14,8
-    PTP Cancellation 12,10 >bottom
-    Task Timeline 7,5
-    Task Window 5,5
-    Open Window 6,6-7
-    Timed Task Window/2 3,4
-    Client Terminated Task Window/2 3,5-6
-    Client Task 5,6-7
-    Active Phase 13-14,5
+    Pace Program 8,2
+    Organ 6,2
+    Active Program 7,4
+    Cued Program 9,3-4
+    Event 7,7
+    Active Phase 8,5-6
+    Pace Timeout Period/2 5-6,7
+    Active Pace Period/2 4-5,5
+    Task Timeline 4-5,2
+    Task Window 2,2
+    Open Window 3,3-4
 connectors
-    -R1 : +/2 r|Organ : +/1 l*|Region
-    -R2-1 : +/2 r|Region : +/2 l*|Event, t|Region Stimulation
-    -R3 : +/2 r|Pace Program : +/1 l*|Region Stimulation, t|Region Schedule
-    -R4 : +/2 b|Region Schedule : +/2 t*|Task Timeline
-    -R5 : -/2 b-2|Task Timeline : -/2 t*|Task Window
-    -R6 : +/1 b+2|Task Timeline : +/1 t*|Task Window, l|Open Window
-    +R7 : b|Task Window { t|Timed Task Window, t|Client Terminated Task Window }
-    +R10 : r|Event { l|Intrinsic Event, l|Pace Event }
-    +R11 : +/1 r|Intrinsic Event : +/1 b-2|Pace Timeout Period, t|PTP Cancellation
-    +R12.2 : +/1 r|Pace Event : +/2 b+2|Pace Timeout Period
-    -R13 : +/2 t+1|Event : +/1 l-2|Pace Timeout Period, b|PTP Initiation
-    +R14 : +/1 l+2|Pace Timeout Period : -/2 l+2|Pace Program : L2R+1
-    +R15 : +/2 b+2|Organ : +/2 t*|Pace Program
-    -R16.2 : -/2 t+1|Organ : -/2 t-1|Event, b|Active Phase : L13
-    -OR18.2-1 : -/1 l-1|Task Window : +/1 l+1|Task Window : L4R+2
-    +R17 : -/1 r|Task Window : -/2 l*|Client Task
-    +R19 : -/1 b-2|Organ : -/2 t*|Pace Program, r|Controlling Program
-    -R20.2 : -/2 l-2|Pace Program : +/2 b|Controlling Program, t|Cued Program
+    -R50 : -/1 t*|Organ : -/1 b|Pace Program, l|Active Program
+    -R51.2 : +/1 r|Pace Program : +/2 t|Active Program, b|Cued Program
+    -R52 : +/2 r|Active Program : +/2 l*|Event, b|Active Phase
+    -R53 : +/1 b|Active Program : +/2 l|Pace Timeout Period, t|Active Pace Period
+    -R54 : -/1 b|Task Timeline : -/1 t*|Task Window, l|Open Window
