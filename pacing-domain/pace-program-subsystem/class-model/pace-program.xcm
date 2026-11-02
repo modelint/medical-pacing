@@ -2,9 +2,9 @@ metadata
     Title : Pace Program Subsystem Class Model
     Author : Leon Starr
     Document ID : mint.pace.td.1
-    Version : 0.4.3
+    Version : 0.4.4
     Creation date : September 18, 2026
-    Modification date : November 1, 2026
+    Modification date : November 2, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -48,7 +48,7 @@ attributes
 --
 class Pace Timeout Period, PTP
 attributes
-    ID : PTP ID {I}
+    Name : PTP Name {I}
     Program : Program Name {I, R14}
     Activity : Activity Name {R13}
     Pace event : Event Code {R12}
