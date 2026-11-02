@@ -37,4 +37,4 @@ connectors
     +R13 : -/1 t-1|Activity : -/2 b*|Pace Timeout Period
     +R14 : +/1 l|Pace Timeout Period : -/2 t|Pace Program
     -R15 : +/2 l*|Organ : +/2 r|Pace Program
-    +OR18.2-1 : -/1 t-1|Task Window : +/1 t+1|Task Window : L5R+1
+    +OR18.2-1 : -/2 t-1|Task Window : +/2 t+1|Task Window : L5R+1

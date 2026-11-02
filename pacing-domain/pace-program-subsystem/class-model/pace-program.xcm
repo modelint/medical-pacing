@@ -2,7 +2,7 @@ metadata
     Title : Pace Program Subsystem Class Model
     Author : Leon Starr
     Document ID : mint.pace.td.1
-    Version : 0.4.2
+    Version : 0.4.3
     Creation date : September 18, 2026
     Modification date : November 1, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -173,6 +173,6 @@ relationships
     Pace Program.Organ -> Organ.Name
 --
     OR18
-    before / after, Task Window
+    opened before / opened after, Task Window
     Sequence : I
 --
