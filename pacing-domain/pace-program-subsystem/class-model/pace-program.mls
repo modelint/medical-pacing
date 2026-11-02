@@ -22,7 +22,6 @@ nodes
     Task Window 4-5,7
     Timed Task Window/2 5,8-9
     Client Terminated Task Window/2 4,8-9
-    Client Task 3,7
 connectors
     -R1 : +/2 r|Organ : +/1 l*|Region
     -R2.2 : +/2 b|Region : +/2 b|Event, t|Region Stimulation : L8R+2
@@ -39,4 +38,3 @@ connectors
     +R14 : +/1 l|Pace Timeout Period : -/2 t|Pace Program
     -R15 : +/2 l*|Organ : +/2 r|Pace Program
     +OR18.2-1 : -/1 t-1|Task Window : +/1 t+1|Task Window : L5R+1
-    +R17 : -/1 b|Task Window : -/2 t*|Client Task

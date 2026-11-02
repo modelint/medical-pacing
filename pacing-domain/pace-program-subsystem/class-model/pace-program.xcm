@@ -2,9 +2,9 @@ metadata
     Title : Pace Program Subsystem Class Model
     Author : Leon Starr
     Document ID : mint.pace.td.1
-    Version : 0.4.1
+    Version : 0.4.2
     Creation date : September 18, 2026
-    Modification date : October 28, 2026
+    Modification date : November 1, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -15,10 +15,6 @@ attributes
     Name : Activity Name {I}
     Region : Region Name {I, R6}
     Signal event : Event Code {R8}
---
-class Client Task
-attributes
-    ID : Task ID {I}
 --
 class Client Terminated Task Window
 attributes
@@ -175,11 +171,6 @@ relationships
     regulates activity in, 1 Organ
     has activity regulated by, Mc Pace Program
     Pace Program.Organ -> Organ.Name
---
-    R17
-    invokes, 1 Client Task
-    is invoked by, 1 Client Terminated Task Window
-    Task Window.Task to invoke -> Client Task.ID
 --
     OR18
     before / after, Task Window
