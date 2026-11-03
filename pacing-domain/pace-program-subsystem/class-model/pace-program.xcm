@@ -2,7 +2,7 @@ metadata
     Title : Pace Program Subsystem Class Model
     Author : Leon Starr
     Document ID : mint.pace.td.1
-    Version : 0.4.5
+    Version : 0.4.6
     Creation date : September 18, 2026
     Modification date : November 2, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -84,7 +84,6 @@ attributes
     Program : Program Name {I, R5}
     Region : Region Name {I, R5}
     Event : Event Code {I, R5}
-    Task to invoke : Task ID {R17}
 --
 class Timed Task Window
 attributes
