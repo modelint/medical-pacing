@@ -2,7 +2,7 @@ metadata
     Title : Pace Program Subsystem Class Model
     Author : Leon Starr
     Document ID : mint.pace.td.1
-    Version : 0.5.0
+    Version : 0.5.1
     Creation date : September 18, 2026
     Modification date : November 3, 2026
     Organization : Model Integration, LLC / www.modelint.com
@@ -52,7 +52,7 @@ attributes
     Program : Program Name {I, R14}
     Activity : Activity Name {R13}
     Pace event : Event Code {R12}
-    Terminating event : Event Code {R11}
+    Expected event : Event Code {R11}
     Inhibited : Boolean
 --
 class Region
@@ -153,9 +153,9 @@ relationships
     <subclass>.Code -> Event.Code
 --
     R11
-    is terminated by, 1 Intrinsic Event
-    terminates, Mc Pace Timeout Period
-    Pace Timeout Period.Terminating event -> Intrinsic Event.Code
+    expects, 1 Intrinsic Event
+    is expected by, Mc Pace Timeout Period
+    Pace Timeout Period.Expected event -> Intrinsic Event.Code
 --
     R12
     requests delivery of, 1 Pace Event
