@@ -2,9 +2,9 @@ metadata
     Title : Active Phase Subsystem Class Model
     Author : Leon Starr
     Document ID : mint.pace.td.1
-    Version : 0.4.0
+    Version : 0.4.1
     Creation date : September 18, 2026
-    Modification date : October 31, 2026
+    Modification date : November 4, 2026
     Organization : Model Integration, LLC / www.modelint.com
     Copyright notice > MIT
     Organization logo > mint
@@ -75,7 +75,7 @@ attributes
 relationships
     R50
     is pacing, 1c Organ
-    is being paced by, 1c Pace Program
+    is being paced by, 1 Pace Program
     1 Active Program
     Active Program.Organ -> Organ.Name
     Active Program.Name -> Pace Program.Name
